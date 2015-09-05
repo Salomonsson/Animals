@@ -11,8 +11,8 @@ namespace TestOOPAnimal.Classes
         private string _sound = "Mjaaaau";
 
 
-        public cat(string name, string age, string gender)
-            : base(name, age, gender)
+        public cat(string name, string age, string gender, string teeth)
+            : base(name, age, gender, teeth)
         {
             Sound = _sound;
         }
