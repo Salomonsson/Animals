@@ -10,12 +10,17 @@ namespace TestOOPAnimal.Classes
     {
 
         //protected string _sound = "WoFF";
+        //public int _teeth;
 
 
-        public Dog(string name, string age, string gender, string numberTeeth)
-            : base(name, age, gender, numberTeeth)
+        public Dog(string name, string age, string gender, string teeth)
+            : base(name, age, gender, teeth)
         {
+            //bool isNum = int.TryParse(teeth, out validInteger);
+            //nrTeeth = validInteger;
+
             Sound = _sound;
+            //Teeth = teeth;
         }
 
         public override string Sound
@@ -29,5 +34,17 @@ namespace TestOOPAnimal.Classes
                  this._sound = "WoFF";
             }
         }
+
+        //public override string Teeth
+        //{
+        //    get
+        //    {
+        //        return this._teeth;
+        //    }
+        //    set
+        //    {
+        //        this._teeth = value;
+        //    }
+        //}
     }
 }
