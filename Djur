@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 namespace TestOOPAnimal.Classes
 {
 
-        public enum Djur
-        {
-            Dog,
-            Cat,
-        }
+        //public enum Djur
+        //{
+        //    Dog,
+        //    Cat,
+        //}
 
 
-        public enum LegalType
-        {
-            Ownership,
-            Rental,
-            Tenement
-        }
+        //public enum LegalType
+        //{
+        //    Ownership,
+        //    Rental,
+        //    Tenement
+        //}
 
      //private string ReadAddress(out adr)
      //   {
