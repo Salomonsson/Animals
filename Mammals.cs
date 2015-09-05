@@ -8,16 +8,20 @@ namespace TestOOPAnimal.Classes
 {
     class Mammals : Animal
     {
-        int _teeth;
 
-        public Mammals(string name, string age, string gender, string numberTeeth)
-            : base(name, age, gender)
+        //DESSA BEHÖVS!??!
+        //string _teeth;
+        //string _sound;
+        private int validInteger;
+
+        public Mammals(string name, string age, string gender, string teeth)
+            : base(name, age, gender, teeth)
         {
-            bool isNum = int.TryParse(numberTeeth, out validInteger);
-            nrTeeth = validInteger;
+            bool isNum = int.TryParse(teeth, out validInteger);
+            Teeth = validInteger;
         }
 
-        public int nrTeeth
+        public override int Teeth
         {
             get
             {
@@ -25,9 +29,21 @@ namespace TestOOPAnimal.Classes
             }
             set
             {
-                this._teeth = 1;
+                this._teeth = value;
             }
         }
+
+        //public override string Sound
+        //{
+        //    get
+        //    {
+        //        return this._sound;
+        //    }
+        //    set
+        //    {
+        //        this._sound = value;
+        //    }
+        //}
 
 
 
