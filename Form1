@@ -1,0 +1,195 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using TestOOPAnimal.Classes;
+//using System.Collections.Generic;
+
+
+namespace TestOOPAnimal
+{
+
+
+    public partial class Form1 : Form
+    {
+
+        //public void TooString(string t)
+        //{
+        //    foreach (var Str in t)
+        //    {
+        //        richTextBox1.AppendText(Environment.NewLine + "Objekt: " + Str);
+        //    }
+
+        //}
+        //static int SumParameters(params string[] values)
+        //{
+        //    // Loop through and sum the integers in the array.
+        //    int total = 0;
+        //    foreach (string value in values)
+        //    {
+        //        total = richTextBox1.AppendText(Environment.NewLine + "Objekt: " + Str);
+        //    }
+        //    return total;
+        //}
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            //List<string> objs = new List<string>();
+            //Dictionary<string, int> objs = new Dictionary<string, int>();
+            var objs = new List<Tuple<string, int, string, string>>();
+            //List<Animal> estateList = new List<Animal>();
+             //List<Animal> estateList;
+
+            //string _name = Convert.ToString(textBoxName);
+            string _name = textBoxName.Text;
+            string _age = textBoxAge.Text;
+            string _gender = listBox1.GetItemText(listBox1.SelectedItem);
+            string _teeth = textBoxTeeth.Text;
+
+            //string t = listBox3.Text;
+            //richTextBox1.AppendText(Environment.NewLine + "--");
+
+
+            Animal Ani;
+            switch ((Djur)listBox3.SelectedIndex)
+            {
+                case Djur.Dog:
+                    //estateList = new List<Animal>();
+
+                     Ani = new Dog(_name, _age, _gender, _teeth);
+                     //objs.Add(Ani.Name, Ani.Age, Ani.Gender);
+                     objs.Add(new Tuple<string, int, string, string>(Ani.Name, Ani.Age, Ani.Gender, Ani.Sound));
+                    
+                     //estateList.Add(Ani);
+                     //new List<Dog>(Ani.Name);
+                     break;
+
+                case Djur.Cat:
+                    Ani = new cat(_name, _age, _gender);
+                    objs.Add(new Tuple<string, int, string, string>(Ani.Name, Ani.Age, Ani.Gender, Ani.Sound));
+                    //cat AniCat = new cat(_name, _age, _gender);
+                    break;
+            }
+
+
+
+            //MessageBox.Show("NU tryckte du här din noob!");
+            //Animal Ani = new Animal(1, _name, _age);
+            //Dog Ani = new Dog(_name, _age, _gender);
+
+            //TooString(objs);
+            //SumParameters(objs);
+            foreach (var Str in objs)
+            {
+                richTextBox1.AppendText(Environment.NewLine + "Objekt: " + Str);
+            }
+            //richTextBox1.Show(Ani.Id);
+            //foreach (var Str in objs)
+            //{
+            //    richTextBox1.AppendText(Environment.NewLine + "Objekt: " + Str);
+            //}
+
+
+            //richTextBox1.AppendText(Environment.NewLine + "Namn: " + Ani.Name.ToString());
+            //richTextBox1.AppendText(Environment.NewLine + "Ålder: " + Ani.Age.ToString());
+            //richTextBox1.AppendText(Environment.NewLine + "Kön: " + Ani.Gender.ToString());
+            //richTextBox1.AppendText(Environment.NewLine + "Ljud: " + Ani.Sound.ToString());
+            //richTextBox1.AppendText(Ani.Name);
+            //richTextBox1.AppendText(Ani.Age.ToString());
+            //richTextBox1.AppendText(Ani.Id.ToString());
+            //richTextBox1.AppendText(Ani.sound());
+            //richTextBox1.Text = Convert.ToString(Ani.sound());
+            
+            
+
+            //MessageBox.Show(Ani.Name);
+            //MessageBox.Show(Ani.Id.ToString());
+            //MessageBox.Show(Ani.Age.ToString());
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            //richTextBox1.AppendText();
+        }
+
+        private void listBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
+
+
+
+
+
+
+ //// Now create a correct estate according to the type combo
+ //             switch ((EstateType)cmbTyp.SelectedIndex)
+ //             {
+ //               case EstateType.WareHouse:
+ //                 {
+ //                   // Use a copy constructor to set a warehouse with common data
+ //                   WareHouse  wHouse = new WareHouse(estate);
+ //                   // If more data in GUI to fill in for this estate, do it here
+ //                   //Then send it to the manager for adding to the list
+ //                   estateMngr.Add(wHouse);
+ //                   break;
+ //                 }
+ //               case EstateType.Villa:
+ //                 {
+ //                   // Same procedure all different types of estates
+ //                   Villa vHouse = new Villa(estate);
+ //                   // But here we need to add landSize size
+ //                   bool landSizeOk = false;
+ //                   vHouse.LandSize = ReadLandSize(out landSizeOk);
+ //                   if (!landSizeOk)
+ //                     return;
+ //                   estateMngr.Add(vHouse);
+ //                   break;
+ //                 }
+ //               case EstateType.Store:
+ //                 {
+ //                   Store store = new Store(estate);
+ //                   estateMngr.Add(store);
+ //                   break;
+ //                 }
+ //               case EstateType.RowHouse:
+ //                 {
+ //                   RowHouse rHouse = new RowHouse(estate);
+ //                   // Here we need to add landSize size
+ //                   bool gardenok = false;
+ //                   rHouse.LandSize = ReadLandSize(out gardenok);
+ //                   if (!gardenok)
+ //                     return;
+ //                   estateMngr.Add(rHouse);
+ //                   break;
+ //                 }
+ //               case EstateType.Apartment:
+ //                 {
+ //                   Apartment apart = new Apartment(estate);
+ //                   // We need to add floor
+ //                   bool floorok = false;
+ //                   apart.Floor = ReadFloor(out floorok);
+ //                   if (!floorok)
+ //                     return;
+ //                   estateMngr.Add(apart);
+ //                   break;
+ //                 }
+ //             }
