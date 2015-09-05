@@ -47,7 +47,7 @@ namespace TestOOPAnimal
 
             //List<string> objs = new List<string>();
             //Dictionary<string, int> objs = new Dictionary<string, int>();
-            var objs = new List<Tuple<string, int, string, string>>();
+            var objs = new List<Tuple<string, int, string, string, int>>();
             //List<Animal> estateList = new List<Animal>();
              //List<Animal> estateList;
 
@@ -62,22 +62,24 @@ namespace TestOOPAnimal
 
 
             Animal Ani;
-            switch ((Djur)listBox3.SelectedIndex)
+            switch ((AnimalManager.Djur)listBox3.SelectedIndex)
             {
-                case Djur.Dog:
+                case AnimalManager.Djur.Dog:
                     //estateList = new List<Animal>();
 
                      Ani = new Dog(_name, _age, _gender, _teeth);
                      //objs.Add(Ani.Name, Ani.Age, Ani.Gender);
-                     objs.Add(new Tuple<string, int, string, string>(Ani.Name, Ani.Age, Ani.Gender, Ani.Sound));
+                     objs.Add(new Tuple<string, int, string, string, int>(Ani.Name, Ani.Age, Ani.Gender, Ani.Sound, Ani.Teeth));
                     
                      //estateList.Add(Ani);
                      //new List<Dog>(Ani.Name);
                      break;
 
-                case Djur.Cat:
-                    Ani = new cat(_name, _age, _gender);
-                    objs.Add(new Tuple<string, int, string, string>(Ani.Name, Ani.Age, Ani.Gender, Ani.Sound));
+                case AnimalManager.Djur.Cat:
+                    Ani = new cat(_name, _age, _gender,_teeth);
+                    objs.Add(new Tuple<string, int, string, string, int>(Ani.Name, Ani.Age, Ani.Gender, Ani.Sound, Ani.Teeth));
+                    
+                    //objs.Add(new Tuple<string, int, string, string>(Ani.Name, Ani.Age, Ani.Gender, Ani.Sound));
                     //cat AniCat = new cat(_name, _age, _gender);
                     break;
             }
