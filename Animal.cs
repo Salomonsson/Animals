@@ -17,26 +17,18 @@ namespace TestOOPAnimal.Classes
         protected string _sound = "Djur kan låta";
         public Boolean flag = true;
 
+        public int Teeth { get; protected set; }
+        //public string Sound { get; protected set; }
+
 
         protected int validInteger;
         protected int validIntegerTwo;
 
-    //    public Animal(int id)
-    //    : this(id, "", "") {
-
-    //}
-
-    //    public Animal(int id, string fName)
-    //    : this(id, fName, "") {
-
-    //}
-        //bool isNumeric = int.TryParse("123", out n);
-        
-        public Animal(string name, string age, string gender, string teeth)
+        public Animal(string name, string age, string gender)
         {
             //Validate logic.....
             bool isNum = int.TryParse(age, out validInteger);
-            bool isNum2 = int.TryParse(teeth, out validIntegerTwo);
+            //bool isNum2 = int.TryParse(teeth, out validIntegerTwo);
 
 
             if (string.IsNullOrEmpty(name))
@@ -49,19 +41,19 @@ namespace TestOOPAnimal.Classes
                 MessageBox.Show("Djuret måste ha en ålder, endast siffror");
                 flag = false;
             }
-            if (!isNum2)
-            {
-                MessageBox.Show("Antalet tänder måste vara i siffror.");
-                flag = false;
-            }
-            
-           
+            //if (!isNum2)
+            //{
+            //    MessageBox.Show("Antalet tänder måste vara i siffror.");
+            //    flag = false;
+            //}
+
+
             if (flag)
             {
                 Name = name;
                 Age = validInteger;
                 Gender = gender;
-                Teeth = validIntegerTwo;
+                //Teeth = validIntegerTwo;
             }
             //    throw new ArgumentException("message", "text");
 
@@ -106,6 +98,8 @@ namespace TestOOPAnimal.Classes
             }
         }
 
+
+
         public virtual string Sound
         {
             get
@@ -119,17 +113,17 @@ namespace TestOOPAnimal.Classes
         }
 
 
-        public virtual int Teeth
-        {
-            get
-            {
-                return this._teeth;
-            }
-            set
-            {
-                this._teeth = value;
-            }
-        }
+        //public virtual int Teeth
+        //{
+        //    get
+        //    {
+        //        return this._teeth;
+        //    }
+        //    set
+        //    {
+        //        this._teeth = value;
+        //    }
+        //}
 
     }
 }
