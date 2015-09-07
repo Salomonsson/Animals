@@ -13,25 +13,27 @@ namespace TestOOPAnimal.Classes
         //string _teeth;
         //string _sound;
         private int validInteger;
+        //public int Teeth { get; protected set; }
+
 
         public Mammals(string name, string age, string gender, string teeth)
-            : base(name, age, gender, teeth)
+            : base(name, age, gender)
         {
             bool isNum = int.TryParse(teeth, out validInteger);
-            Teeth = validInteger;
+            this.Teeth = validInteger;
         }
 
-        public override int Teeth
-        {
-            get
-            {
-                return this._teeth;
-            }
-            set
-            {
-                this._teeth = value;
-            }
-        }
+        //public override int Teeth
+        //{
+        //    get
+        //    {
+        //        return this._teeth;
+        //    }
+        //    set
+        //    {
+        //        this._teeth = value;
+        //    }
+        //}
 
         //public override string Sound
         //{
