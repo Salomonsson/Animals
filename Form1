@@ -7,191 +7,302 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TestOOPAnimal.Classes;
-//using System.Collections.Generic;
+using MH_Animal_Applikation_Upg1.Animals;
 
-
-namespace TestOOPAnimal
+namespace MH_Animal_Applikation_Upg1
 {
-
-
     public partial class Form1 : Form
     {
 
-        //public void TooString(string t)
-        //{
-        //    foreach (var Str in t)
-        //    {
-        //        richTextBox1.AppendText(Environment.NewLine + "Objekt: " + Str);
-        //    }
-
-        //}
-        //static int SumParameters(params string[] values)
-        //{
-        //    // Loop through and sum the integers in the array.
-        //    int total = 0;
-        //    foreach (string value in values)
-        //    {
-        //        total = richTextBox1.AppendText(Environment.NewLine + "Objekt: " + Str);
-        //    }
-        //    return total;
-        //}
-
+        private AnimalManager animalMngr = null;  //ref variable declared
+        //animalObj = new Animal();
+        //public Animal animalObj;
         public Form1()
         {
             InitializeComponent();
+
+            //Initializations
+            InitializeGUI();
+
+            //AnimalManager
+            animalMngr = new AnimalManager();
+
+            //animalObj = new Animal();
         }
+
+        /// <summary>
+        /// Prepare the form before display
+        /// Initiate input controls with default values
+        /// Remove design values from output controls (label1 ex.)
+        /// </summary>
+        private void InitializeGUI()
+        {
+            //Clear output controls
+            textBoxName.Text = "Beijo";
+            textBoxAge.Text = "12";
+            textBoxNoTeeth.Text = "20";
+            textBoxTailLength.Text = "15";
+
+
+            //listBox1.Items.AddRange(Enum.GetNames(typeof(EstateTypes.AnimalType)));
+            listBoxGender.Items.AddRange(Enum.GetNames(typeof(AnimalTypes.Gender)));
+            listBoxCategories.Items.AddRange(Enum.GetNames(typeof(AnimalTypes.AnimalType)));
+            
+
+        }
+
+        /// <summary>
+        /// Hämata data från GUI, fyll i ett lokalt object av Fastighet
+        /// för att senare skickas till fastighetMngr
+        /// </summary>
+        /// <param name="fastighet"></param>
+        /// <returns></returns>
+        private bool ReadInput(out Animal animalObj)
+        {
+            //Create a local estate instance for filling in input
+            animalObj = new Animal();
+            
+
+            //Call a method that returns a complete address object 
+            //Creature adr = ReadAddress();
+
+            //If no error message, everything ok for now
+            //Set the address of the local estate 
+            //estate.PostAddress = adr;
+
+            
+            //animalObj.id = animalMngr.objCount;
+            //animalObj.id = animalMngr.counter;
+            ////animalObj.id = animalMngr.ElementCount;
+            animalMngr.countId(animalMngr.animalArrayList);
+            animalObj.id = animalMngr.counter;
+
+
+
+            //AnimalTypes.Gender gender = (AnimalTypes.Gender)Enum.Parse(typeof(AnimalTypes.Gender), listBoxGender.Text);
+            bool prisOK = false;
+
+            animalObj.name = textBoxName.Text;
+            //Check valid integer
+            animalObj.age = CheckAge(out prisOK);
+            animalObj.gender = listBoxGender.Text;
+            //Check valid integer
+            animalObj.teeth = CheckTeeth(out prisOK);
+            animalObj.tail = CheckTailLength(out prisOK);
+            //Tried this, but no success. WHY?!?!?
+            //((Mammals)animalObj).Teeth = CheckTeeth(out prisOK);
+            //((Mammals)animalObj).Teeth = int.Parse(textBoxNoTeeth.Text);
+            //int x  = CheckTeeth(out prisOK);
+            //((Mammals)animalObj).teeth = x;
+            
+            //Process price
+            
+            //Read and test price input in separate method
+           
+            //Mammals t;
+            //t.Teeth = ReadPris(out prisOK);
+
+            //return true or false depending on user input. 
+            //If both price and nr of rooms ok, return true
+            return prisOK;
+        }
+
+        private int CheckTailLength(out bool success)
+        {
+            int tailLength = 0;
+
+            success = int.TryParse(textBoxTailLength.Text, out tailLength);
+
+            if (!success)
+                MessageBox.Show("The entered tail length is not valid!");
+
+            return tailLength;
+        }
+        private int CheckAge(out bool success)
+        {
+            int age = 0;
+
+            success = int.TryParse(textBoxAge.Text, out age);
+
+            if (!success)
+                MessageBox.Show("The entered age is not valid!");
+
+            return age;
+        }
+        public int CheckTeeth(out bool success)
+        {
+            int teeth = 0;
+
+            success = int.TryParse(textBoxNoTeeth.Text, out teeth);
+
+            //if (int.TryParse(textBoxNoTeeth.Text, out teeth))
+            //{
+            //    //((Mammals))
+            //}
+            if (!success)
+                MessageBox.Show("The entered teeth is not valid!");
+
+            return teeth;
+        }
+
+
+
+
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Animal estate;  //holder for input - create in ReadInput
+            //AnimalFactory testtt;
+            
 
-            //List<string> objs = new List<string>();
-            //Dictionary<string, int> objs = new Dictionary<string, int>();
-            var objs = new List<Tuple<string, int, string, string, int>>();
-            //List<Animal> estateList = new List<Animal>();
-             //List<Animal> estateList;
-
-            //string _name = Convert.ToString(textBoxName);
-            string _name = textBoxName.Text;
-            string _age = textBoxAge.Text;
-            string _gender = listBox1.GetItemText(listBox1.SelectedItem);
-            string _teeth = textBoxTeeth.Text;
-
-            //string t = listBox3.Text;
-            //richTextBox1.AppendText(Environment.NewLine + "--");
+            //Send this object to ReadInput
+            //for filling in values (input)
+            //out tells ReadInput that the variable 
+            //is data out. All changes to this object
+            //comes back here.
+            //ReadInput creates all data used for the common fields of all estates.
+            //The special for each are filled in later in the switch case.
+            bool ok = ReadInput(out estate);
 
 
-            Animal Ani;
-            switch ((AnimalManager.Djur)listBox3.SelectedIndex)
+            if (ok)  //If all common data (in variable estate) is OK
             {
-                case AnimalManager.Djur.Dog:
-                    //estateList = new List<Animal>();
+                switch ((AnimalTypes.AnimalType)listBoxCategories.SelectedIndex)
+                {
+                    case AnimalTypes.AnimalType.Mammals:
+                        {
 
-                     Ani = new Dog(_name, _age, _gender, _teeth);
-                     //objs.Add(Ani.Name, Ani.Age, Ani.Gender);
-                     objs.Add(new Tuple<string, int, string, string, int>(Ani.Name, Ani.Age, Ani.Gender, Ani.Sound, Ani.Teeth));
-                    
-                     //estateList.Add(Ani);
-                     //new List<Dog>(Ani.Name);
-                     break;
+                            //((Mammals)estate).teeth = int.Parse(textBoxNoTeeth.Text);
+                            
+                            //Animal bee = new Bee(estate);
+                            //estateMngr.Add(bee);
+                            AnimalTypes.MammalsType mammalObj = (AnimalTypes.MammalsType)Enum.Parse(typeof(AnimalTypes.MammalsType), listBoxAnimalObject.Text);
+                            //DynamicBinding(mammalObj.ToString());
+                            //var p = testtt.GetPeople(mammalObj.ToString());
 
-                case AnimalManager.Djur.Cat:
-                    Ani = new cat(_name, _age, _gender,_teeth);
-                    objs.Add(new Tuple<string, int, string, string, int>(Ani.Name, Ani.Age, Ani.Gender, Ani.Sound, Ani.Teeth));
-                    
-                    //objs.Add(new Tuple<string, int, string, string>(Ani.Name, Ani.Age, Ani.Gender, Ani.Sound));
-                    //cat AniCat = new cat(_name, _age, _gender);
-                    break;
+                            //Tried this but no success. WHY?!?!?
+                            //Animal position = AnimalFactory.GetMammal(mammalObj.ToString(), estate);
+                            //((Mammals)position).Teeth = int.Parse(textBoxNoTeeth.Text);
+                            //animalMngr.Add(position);
+
+                           
+
+                            //MessageBox.Show("Where id = {0}", position.ToString());
+                            //bool prisOK = false;
+                            //position.teeth = CheckTeeth(out prisOK);
+                            //((Mammals)position).teeth = CheckTeeth(out prisOK);
+
+
+                            animalMngr.Add(AnimalFactory.GetMammal(mammalObj.ToString(), estate));
+                            //animalMngr.countId(animalMngr.listA);
+                            //estate.id = animalMngr.counter;
+                           
+                            //DynamicBinding(mammalObj.ToString());
+                            break;
+                        }
+                    case AnimalTypes.AnimalType.Insects:
+                        {
+                            AnimalTypes.InsectsType insectObj = (AnimalTypes.InsectsType)Enum.Parse(typeof(AnimalTypes.InsectsType), listBoxAnimalObject.Text);
+
+                            
+                            break;
+                        }
+                }
+
+                //Then Update the GUI
+
+                UpdateResults();
+                //estate.id = animalMngr.ElementCount;
+                //estate.id = animalMngr.counter;
+                //animalMngr.countId();
+                //lstResults.Items.Add(ReadAddress());
             }
+        }
 
+        private void DynamicBinding(string val)
+        {
+            Animal estate;
+            //bool okf = ReadInput(out estate);
+            ReadInput(out estate);
 
-
-            //MessageBox.Show("NU tryckte du här din noob!");
-            //Animal Ani = new Animal(1, _name, _age);
-            //Dog Ani = new Dog(_name, _age, _gender);
-
-            //TooString(objs);
-            //SumParameters(objs);
-            foreach (var Str in objs)
-            {
-                richTextBox1.AppendText(Environment.NewLine + "Objekt: " + Str);
-            }
-            //richTextBox1.Show(Ani.Id);
-            //foreach (var Str in objs)
-            //{
-            //    richTextBox1.AppendText(Environment.NewLine + "Objekt: " + Str);
+            //List<Animal> test = new List<Animal>();
+            //test.Add(new Animal()) {
+            //    Name = "Test1";
             //}
 
+            switch (val)
+            {
+                case "Cat":
+                    //Animal cat = new Cat(estate.name, estate.age, estate.gender, estate.teeth, estate.tail);
+                    // If more data in GUI to fill in for this estate, do it here
+                    //Then send it to the manager for adding to the list
+                    //animalMngr.Add(cat);
 
-            //richTextBox1.AppendText(Environment.NewLine + "Namn: " + Ani.Name.ToString());
-            //richTextBox1.AppendText(Environment.NewLine + "Ålder: " + Ani.Age.ToString());
-            //richTextBox1.AppendText(Environment.NewLine + "Kön: " + Ani.Gender.ToString());
-            //richTextBox1.AppendText(Environment.NewLine + "Ljud: " + Ani.Sound.ToString());
-            //richTextBox1.AppendText(Ani.Name);
-            //richTextBox1.AppendText(Ani.Age.ToString());
-            //richTextBox1.AppendText(Ani.Id.ToString());
-            //richTextBox1.AppendText(Ani.sound());
-            //richTextBox1.Text = Convert.ToString(Ani.sound());
+                    //MessageBox.Show("Where id = {0}", cat.ToString());
+                    break;
+
+                case "Dog":
+                    //Animal cat = new Cat(estate);
+                    //estateMngr.Add(cat);
+                    break;
+
+            }
+
+        }
+
+        /// <summary>
+        /// Reset result list and fill in with new values
+        /// </summary>
+        private void UpdateResults()
+        {
             
+            lstResults.Items.Clear();  //Erase current list
             
-
-            //MessageBox.Show(Ani.Name);
-            //MessageBox.Show(Ani.Id.ToString());
-            //MessageBox.Show(Ani.Age.ToString());
+            //Get one elemnet at a time from manager, and call its 
+            //ToString method for info - send to listbox
+            for (int index = 0; index < animalMngr.ElementCount; index++)
+            {
+                //Q: Vhy not use new in the line below?
+                Animal estate = animalMngr.GetElementAtPosition(index);
+                
+                // We can get an estate since here we don't need to separate
+                // the different estates,ej, we are only interested in the toString method.
+                lstResults.Items.Add(estate.ToString());
+                //lstResults.Items.Add(estate.ToString() + estateMngr.countId());
+            }
+            
         }
 
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-            //richTextBox1.AppendText();
-        }
 
-        private void listBox3_SelectedIndexChanged(object sender, EventArgs e)
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void listBoxCategories_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if (listBoxCategories.SelectedIndex == (int)AnimalTypes.AnimalType.Mammals)
+            {
+                
+                  
+                listBoxAnimalObject.Items.Clear();
+                // Fill the estate combobox with values from enum
+                //cmbTyp.Items.AddRange(Enum.GetNames(typeof(EstateTypes.MammalsType)));
+                listBoxAnimalObject.Items.AddRange(Enum.GetNames(typeof(AnimalTypes.MammalsType)));
+                //Make this readonly
+                //cmbTyp.DropDownStyle = ComboBoxStyle.DropDownList;
+                //cmbTyp.SelectedIndex = (int)EstateTypes.MammalsType.Dog; //Choose one type as default
+            }
+            if (listBoxCategories.SelectedIndex == (int)AnimalTypes.AnimalType.Insects)
+            {
+                listBoxAnimalObject.Items.Clear();
+                //cmbTyp.Items.AddRange(Enum.GetNames(typeof(EstateTypes.InsectsType)));
+                listBoxAnimalObject.Items.AddRange(Enum.GetNames(typeof(AnimalTypes.InsectsType)));
+                //Make this readonly
+                //cmbTyp.DropDownStyle = ComboBoxStyle.DropDownList;
+                //cmbTyp.SelectedIndex = (int)EstateTypes.InsectsType.Bee; //Choose one type as default
+            }
         }
     }
 }
-
-
-
-
-
-
- //// Now create a correct estate according to the type combo
- //             switch ((EstateType)cmbTyp.SelectedIndex)
- //             {
- //               case EstateType.WareHouse:
- //                 {
- //                   // Use a copy constructor to set a warehouse with common data
- //                   WareHouse  wHouse = new WareHouse(estate);
- //                   // If more data in GUI to fill in for this estate, do it here
- //                   //Then send it to the manager for adding to the list
- //                   estateMngr.Add(wHouse);
- //                   break;
- //                 }
- //               case EstateType.Villa:
- //                 {
- //                   // Same procedure all different types of estates
- //                   Villa vHouse = new Villa(estate);
- //                   // But here we need to add landSize size
- //                   bool landSizeOk = false;
- //                   vHouse.LandSize = ReadLandSize(out landSizeOk);
- //                   if (!landSizeOk)
- //                     return;
- //                   estateMngr.Add(vHouse);
- //                   break;
- //                 }
- //               case EstateType.Store:
- //                 {
- //                   Store store = new Store(estate);
- //                   estateMngr.Add(store);
- //                   break;
- //                 }
- //               case EstateType.RowHouse:
- //                 {
- //                   RowHouse rHouse = new RowHouse(estate);
- //                   // Here we need to add landSize size
- //                   bool gardenok = false;
- //                   rHouse.LandSize = ReadLandSize(out gardenok);
- //                   if (!gardenok)
- //                     return;
- //                   estateMngr.Add(rHouse);
- //                   break;
- //                 }
- //               case EstateType.Apartment:
- //                 {
- //                   Apartment apart = new Apartment(estate);
- //                   // We need to add floor
- //                   bool floorok = false;
- //                   apart.Floor = ReadFloor(out floorok);
- //                   if (!floorok)
- //                     return;
- //                   estateMngr.Add(apart);
- //                   break;
- //                 }
- //             }
