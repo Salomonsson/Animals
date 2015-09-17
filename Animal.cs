@@ -3,127 +3,76 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace TestOOPAnimal.Classes
+namespace MH_Animal_Applikation_Upg1.Animals
 {
-    public class Animal
+    class Animal
     {
-
-        protected string _gender;
-        protected string _name;
-        protected int _age;
-        protected int _teeth;
+        #region Fields
+        /// <summary>
+        /// Fields
+        /// </summary>
+        public int id;
+        public string name;
+        public string gender;
+        public int age;
+        //teeth and tail is måste för att fungera, but i DISLIKE.
+        public int teeth;
+        public int tail;
         protected string _sound = "Djur kan låta";
-        public Boolean flag = true;
+        #endregion
 
-        public int Teeth { get; protected set; }
-        //public string Sound { get; protected set; }
-
-
-        protected int validInteger;
-        protected int validIntegerTwo;
-
-        public Animal(string name, string age, string gender)
+        /// <summary>
+        /// Default construktor - a good place for creating 
+        /// all the fields in the class
+        /// </summary>
+        public Animal()
         {
-            //Validate logic.....
-            bool isNum = int.TryParse(age, out validInteger);
-            //bool isNum2 = int.TryParse(teeth, out validIntegerTwo);
-
-
-            if (string.IsNullOrEmpty(name))
-            {
-                MessageBox.Show("Djuret måste ha ett namn!");
-                flag = false;
-            }
-            if (!isNum)
-            {
-                MessageBox.Show("Djuret måste ha en ålder, endast siffror");
-                flag = false;
-            }
-            //if (!isNum2)
-            //{
-            //    MessageBox.Show("Antalet tänder måste vara i siffror.");
-            //    flag = false;
-            //}
-
-
-            if (flag)
-            {
-                Name = name;
-                Age = validInteger;
-                Gender = gender;
-                //Teeth = validIntegerTwo;
-            }
-            //    throw new ArgumentException("message", "text");
-
-            //    else if (Id == null)
-            //        throw new ArgumentNullException("context");
-            //Name = name;
-            //Age = age;
-            //Gender = gender;
+            
         }
 
-        public string Gender
+        /// <summary>
+        /// Default construktor - a good place for creating 
+        /// all the fields in the class
+        /// </summary>
+        public Animal(int id, string name, int age, string gender)
         {
-            get
-            {
-                return this._gender;
-            }
-            set
-            {
-                this._gender = value;
-            }
-        }
-        public int Age
-        {
-            get
-            {
-                return this._age;
-            }
-            set
-            {
-                this._age = value;
-            }
-        }
-        public string Name
-        {
-            get
-            {
-                return this._name;
-            }
-            set
-            {
-                this._name = value;
-            }
+            //address = new Creature();
+            //teeth;  //m is short for "money". 
+            Id = id;
+            Name = name;
+            Age = age;
+            Gender = gender;
+
         }
 
+        #region properties
+        //protected internal int Id { get; protected set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public string Gender { get; set; }
+        //public virtual int Teeth { get; set; }
+        //public virtual int Tail { get; set; }
+        #endregion
 
 
-        public virtual string Sound
+
+        /// <summary>
+        ///Format a string with values from this estate.
+        ///Note that data for the address object is fetched from the
+        ///address-object belonging to this estate.
+        /// </summary>
+        /// <returns>The formatted string.</returns>
+        public override string ToString()
         {
-            get
-            {
-                return this._sound;
-            }
-            set
-            {
-                this._sound = value;
-            }
+            //Vhat is {0, -12}, {3, 6} eller {4} ?
+            string strOut = String.Format("  ID:{0}, Namn: {1}, Ålder:{2}, Kön: {3}   ", this.id, this.name, this.age, this.gender);
+
+            strOut = strOut.ToUpper();
+            return strOut;
         }
 
-
-        //public virtual int Teeth
-        //{
-        //    get
-        //    {
-        //        return this._teeth;
-        //    }
-        //    set
-        //    {
-        //        this._teeth = value;
-        //    }
-        //}
 
     }
 }
