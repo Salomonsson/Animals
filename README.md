@@ -1,5 +1,6 @@
 # Animals
-OOP C# part II - Malmö Högskola
+C# part II - Malmö Högskola
+Object oriented programming.
 
 **School project, OOP Animal
 
