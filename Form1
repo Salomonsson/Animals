@@ -52,8 +52,7 @@ namespace MH_Animal_Applikation_Upg1
         }
 
         /// <summary>
-        /// Hämata data från GUI, fyll i ett lokalt object av Fastighet
-        /// för att senare skickas till fastighetMngr
+        /// Hämata data från GUI, fyll i ett lokalt object
         /// </summary>
         /// <param name="fastighet"></param>
         /// <returns></returns>
@@ -61,15 +60,6 @@ namespace MH_Animal_Applikation_Upg1
         {
             //Create a local estate instance for filling in input
             animalObj = new Animal();
-            
-
-            //Call a method that returns a complete address object 
-            //Creature adr = ReadAddress();
-
-            //If no error message, everything ok for now
-            //Set the address of the local estate 
-            //estate.PostAddress = adr;
-
             
             //animalObj.id = animalMngr.objCount;
             //animalObj.id = animalMngr.counter;
@@ -95,12 +85,6 @@ namespace MH_Animal_Applikation_Upg1
             //int x  = CheckTeeth(out prisOK);
             //((Mammals)animalObj).teeth = x;
             
-            //Process price
-            
-            //Read and test price input in separate method
-           
-            //Mammals t;
-            //t.Teeth = ReadPris(out prisOK);
 
             //return true or false depending on user input. 
             //If both price and nr of rooms ok, return true
@@ -152,8 +136,6 @@ namespace MH_Animal_Applikation_Upg1
         private void button1_Click(object sender, EventArgs e)
         {
             Animal estate;  //holder for input - create in ReadInput
-            //AnimalFactory testtt;
-            
 
             //Send this object to ReadInput
             //for filling in values (input)
@@ -172,39 +154,23 @@ namespace MH_Animal_Applikation_Upg1
                     case AnimalTypes.AnimalType.Mammals:
                         {
 
-                            //((Mammals)estate).teeth = int.Parse(textBoxNoTeeth.Text);
-                            
-                            //Animal bee = new Bee(estate);
-                            //estateMngr.Add(bee);
+                            /
                             AnimalTypes.MammalsType mammalObj = (AnimalTypes.MammalsType)Enum.Parse(typeof(AnimalTypes.MammalsType), listBoxAnimalObject.Text);
-                            //DynamicBinding(mammalObj.ToString());
-                            //var p = testtt.GetPeople(mammalObj.ToString());
 
                             //Tried this but no success. WHY?!?!?
                             //Animal position = AnimalFactory.GetMammal(mammalObj.ToString(), estate);
                             //((Mammals)position).Teeth = int.Parse(textBoxNoTeeth.Text);
                             //animalMngr.Add(position);
 
-                           
-
-                            //MessageBox.Show("Where id = {0}", position.ToString());
-                            //bool prisOK = false;
-                            //position.teeth = CheckTeeth(out prisOK);
-                            //((Mammals)position).teeth = CheckTeeth(out prisOK);
-
-
                             animalMngr.Add(AnimalFactory.GetMammal(mammalObj.ToString(), estate));
                             //animalMngr.countId(animalMngr.listA);
                             //estate.id = animalMngr.counter;
-                           
-                            //DynamicBinding(mammalObj.ToString());
+
                             break;
                         }
                     case AnimalTypes.AnimalType.Insects:
                         {
                             AnimalTypes.InsectsType insectObj = (AnimalTypes.InsectsType)Enum.Parse(typeof(AnimalTypes.InsectsType), listBoxAnimalObject.Text);
-
-                            
                             break;
                         }
                 }
@@ -214,40 +180,7 @@ namespace MH_Animal_Applikation_Upg1
                 UpdateResults();
                 //estate.id = animalMngr.ElementCount;
                 //estate.id = animalMngr.counter;
-                //animalMngr.countId();
-                //lstResults.Items.Add(ReadAddress());
             }
-        }
-
-        private void DynamicBinding(string val)
-        {
-            Animal estate;
-            //bool okf = ReadInput(out estate);
-            ReadInput(out estate);
-
-            //List<Animal> test = new List<Animal>();
-            //test.Add(new Animal()) {
-            //    Name = "Test1";
-            //}
-
-            switch (val)
-            {
-                case "Cat":
-                    //Animal cat = new Cat(estate.name, estate.age, estate.gender, estate.teeth, estate.tail);
-                    // If more data in GUI to fill in for this estate, do it here
-                    //Then send it to the manager for adding to the list
-                    //animalMngr.Add(cat);
-
-                    //MessageBox.Show("Where id = {0}", cat.ToString());
-                    break;
-
-                case "Dog":
-                    //Animal cat = new Cat(estate);
-                    //estateMngr.Add(cat);
-                    break;
-
-            }
-
         }
 
         /// <summary>
@@ -273,35 +206,21 @@ namespace MH_Animal_Applikation_Upg1
             
         }
 
-
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void listBoxCategories_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBoxCategories.SelectedIndex == (int)AnimalTypes.AnimalType.Mammals)
             {
-                
-                  
+
                 listBoxAnimalObject.Items.Clear();
                 // Fill the estate combobox with values from enum
-                //cmbTyp.Items.AddRange(Enum.GetNames(typeof(EstateTypes.MammalsType)));
                 listBoxAnimalObject.Items.AddRange(Enum.GetNames(typeof(AnimalTypes.MammalsType)));
                 //Make this readonly
-                //cmbTyp.DropDownStyle = ComboBoxStyle.DropDownList;
-                //cmbTyp.SelectedIndex = (int)EstateTypes.MammalsType.Dog; //Choose one type as default
             }
             if (listBoxCategories.SelectedIndex == (int)AnimalTypes.AnimalType.Insects)
             {
                 listBoxAnimalObject.Items.Clear();
-                //cmbTyp.Items.AddRange(Enum.GetNames(typeof(EstateTypes.InsectsType)));
                 listBoxAnimalObject.Items.AddRange(Enum.GetNames(typeof(AnimalTypes.InsectsType)));
-                //Make this readonly
-                //cmbTyp.DropDownStyle = ComboBoxStyle.DropDownList;
-                //cmbTyp.SelectedIndex = (int)EstateTypes.InsectsType.Bee; //Choose one type as default
+
             }
         }
     }
