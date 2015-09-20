@@ -8,55 +8,53 @@ namespace MH_Animal_Applikation_Upg1.Animals
 {
     class Cat :  Mammals
     {
-         private string _sound = "Mjaaaau";
+        private string _sound = "Mjaaaau";
 
 
-         public Cat(int id, string name, int age, string gender, int teeth, int tail)
-             : base(id, name, age, gender, teeth, tail)
+         public Cat(int id, string name, int age, int teeth, double tail)
+             : base(id, name, age, teeth, tail)
          {
-             Sound = _sound;
+
          }
          public Cat(Animal other)
          {
-             this.gender = other.gender;
-             this.name = other.name;
-             this.age = other.age;
-             this.Id = other.Id;
+             this.gender = other.Gender;
+             this.name = other.Name;
+             this.age = other.Age;
+             this.id = other.Id;
+
+             //Detta stämmer inte, jag kommer bara åt min variablar. Men i fallet vill jag komma åt min properties
+             //i Mammals klassen.
              this.teeth = other.teeth;
              this.tail = other.tail;
-             //this.Sound = other.Sound;
-             //this.PostAddress = new Creature(other.PostAddress);
+             //this.MammalsObjekt = new Mammals(other.MammalsObjekt);
          }
+
+        //Här har jag försökt med en hierarkisk copy constrcutor. Dvs. den arvs stegvis nedåt. Detta för att jag vill
+        //instansiera objekten med EN-Parameter. Vilket jag tycker är snyggast. 
+
         //public Cat(Mammals other)
         //{
-
         //    this.teeth = other.teeth;
         //    this.tail = other.tail;
         //    //this.Sound = other.Sound;
         //    //this.PostAddress = new Creature(other.PostAddress);
         //}
+
+        //Protected SET.
         public string Sound
         {
             get
             {
                 return this._sound;
             }
-            set
+            protected set
             {
                 this._sound = value;
             }
         }
 
-        //public override string ToString()
-        //{
-        //    //Vhat is {0, -12}, {3, 6} eller {4} ?
-        //    string strOut = String.Format(" , Namn:{0} Ålder: {1},  Kön:{2}, Antal tänder:{3},  Svanslängd:{4}, Ljud: {5}",
-        //        name, age, this.gender, this.teeth, this.tail, Sound);
-
-        //    strOut = strOut.ToUpper();
-        //    return strOut;
-        //}
-
+        //Override the base toString, plus add extra info
         public override string ToString()
         {
             return base.ToString() + " Ljud:" + Sound;
