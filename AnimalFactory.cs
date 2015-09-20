@@ -12,19 +12,33 @@ namespace MH_Animal_Applikation_Upg1
         /// <summary>
         /// Decides which class to instantiate.
         /// </summary>
-        public static Animal GetMammal(string type, Animal estate)
+        public static Animal GetMammal(string type, Animal animalObj)
         {
-            Mammals obj = null;
+            Animal obj = null;
             switch (type)
             {
                 case "Dog":
-                    obj = new Dog(estate);
-                     //(Mammals)estate).teeth = int.TryParse(textBoxNoTeeth.Text);
-                    //((Mammals)obj).teeth = int.Parse(textBoxNoTeeth.Text);
+                    obj = new Dog(animalObj);
                     break;
                 case "Cat":
-                    obj = new Cat(estate);
+                    obj = new Cat(animalObj);
+                    break;
+                default:
+                    break;
+            }
+            return obj;
+        }
 
+        public static Animal GetInsect(string type, Animal animalObj)
+        {
+            Animal obj = null;
+            switch (type)
+            {
+                case "Kookaburra":
+                    obj = new Kookaburra(animalObj);
+                    break;
+                case "Owl":
+                    obj = new Owl(animalObj);
                     break;
                 default:
                     break;
