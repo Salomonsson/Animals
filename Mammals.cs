@@ -8,29 +8,31 @@ namespace MH_Animal_Applikation_Upg1.Animals
 {
     class Mammals : Animal
     {
-        //DESSA BEHÖVS!??!
-        //string _teeth;
-        //string _sound;
-        private int validInteger;
         //Teeth and tail make it not working.
         //public int teeth;
-        //public int tail;
-        //public int Teeth { get; protected set; }
+        //public double tail;
 
+
+        //Default constructor
         public Mammals()
         {
-            ////bool isNum = int.TryParse(teeth, out validInteger);
-        
+          
         }
 
-        public Mammals(int id, string name, int age, string gender, int _teeth, int _tail)
-            : base(id, name, age, gender)
+        public Mammals(int id, string name, int age, int teeth, double tail)
+            : base(id, name, age)
         {
+            //Möjligt att validera inkommande parametrar, dock har jag valt mig av att använda copy constructors. 
             ////bool isNum = int.TryParse(teeth, out validInteger);
-
-            Teeth = _teeth;
-            //Tail = _tail;
+            Teeth = teeth;
+            Tail = tail;
         }
+
+
+        //Enligt mitt tänk så bör en hierarkisk copy-constructor kunna göra jobbet, så dem ärver ned till varandra.
+        //Detta utan resultat. Nu fungerar det så att varje ToString metod i varje klass arver från underklassen
+        //och där efter visas korrekt data. Nackdel i detta är att mina variablar måste finnas i basklassen Animal
+        //med publika encapsulation, VILKET SKA UNDVIKAS. Dem får dock protected set i properties Teeth och Tail under.
 
         //public Mammals(Animal other)
         //{
@@ -38,56 +40,37 @@ namespace MH_Animal_Applikation_Upg1.Animals
         //    this.name = other.name;
         //    this.age = other.age;
         //    this.Id = other.Id;
-        //    //this.teeth = other.teeth;
+        //    this.teeth = other.teeth;
         //    this.tail = other.tail;
-        //    //this.Sound = other.Sound;
-        //    //this.PostAddress = new Creature(other.PostAddress);
         //}
 
+
+        //Properties Teeth och Tail har protected set för att skydda objektdata. Dock har jag problemet att instansiera
+        //dessa properties. 
         public int Teeth
         {
             get
             {
                 return this.teeth;
             }
-            set
+           protected set
             {
                 this.teeth = value;
             }
         }
-        public int Tail
+        public double Tail
         {
             get
             {
                 return this.tail;
             }
-            set
+            protected set
             {
                 this.tail = value;
             }
         }
 
-        //public Mammals(Animal other)
-        //{
-        //    this.name = other.name;
-        //    this.age = other.age;
-        //    this.Id = other.Id;
-        //    this.teeth = other.teeth;
-        //    //this.Sound = other.Sound;
-        //    //this.PostAddress = new Creature(other.PostAddress);
-        //}
-
-        //public virtual string Sound
-        //{
-        //    get
-        //    {
-        //        return this._sound;
-        //    }
-        //    set
-        //    {
-        //        this._sound = value;
-        //    }
-        //}
+       //Override the base toString, plus add extra info
         public override string ToString()
         {
             return base.ToString() + " Antal tänder:"+ Teeth + " Svanslängd:" + Tail;
