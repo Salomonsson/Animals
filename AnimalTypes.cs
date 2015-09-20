@@ -17,13 +17,13 @@ namespace MH_Animal_Applikation_Upg1
         public enum AnimalType
         {
             Mammals,
-            Insects
+            Bird
         }
 
-        public enum InsectsType
+        public enum BirdType
         {
-            Bird,
-            Bee
+            Kookaburra,
+            Owl
         }
 
         public enum Gender
