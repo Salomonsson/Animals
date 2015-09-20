@@ -13,9 +13,14 @@ namespace MH_Animal_Applikation_Upg1
 
         
         //private List<Animal> estateList; //declaration, not yet created
+        //Jag beslöt mig för att använda mig av arrayList, detta för jag trodde att jag kunde loopa ut 
+        //unikt id med foreach loop för varje objekt som är lagrat i arrayn. Problemet är dock att jag inte får
+        //det att fungera. Jag vet inte varför, jag tycker att det är fullt logiskt att det ska fungera. Jag kanske
+        //ska testa Eunumerable list, för att loopa ut allt utan att bry mig om vad det för typ av data. Uhm...
         public ArrayList animalArrayList = new ArrayList();
 
-        public int counter = 0;
+        //Ett försök till foreach. Börjar på 1.
+        public int counter = 1;
 
         //Konstruktor - skapa objekten som ingår som variabler 
         /// <summary>
@@ -24,8 +29,6 @@ namespace MH_Animal_Applikation_Upg1
         public AnimalManager()
         {
             //1.  Create the list object
-            // estates = new ArrayList();  IF we are using an arrayList
-            //estateList = new List<Animal>();
             animalArrayList = new ArrayList(); 
            
         }
@@ -36,14 +39,13 @@ namespace MH_Animal_Applikation_Upg1
             //this.id = other.id;
         }
 
-        public int countId(ArrayList t)
+
+        //Får inte denna att fungera. Det kommer ut hel fel antal, den adderar helt knäppt.
+        public int countId()
         {
-
-
-            foreach (var item in t)
+            foreach (var item in animalArrayList)
             {
-                counter = counter + 1;
-                 
+                counter = counter++;
             }
             return counter;
         }
@@ -51,10 +53,10 @@ namespace MH_Animal_Applikation_Upg1
 
         public int objCount
         {
-            get { return counter; }
+            get { return this.counter; }
         }
         /// <summary>
-        /// Add a new estate object to the list
+        /// Add a new animal object to the arraylist
         /// </summary>
         /// <param name="estObj"></param>
         public void Add(Animal estObj)
@@ -62,6 +64,7 @@ namespace MH_Animal_Applikation_Upg1
             if (estObj != null)  //Important - the object must be created (in calling method)
                 animalArrayList.Add(estObj);
         }
+
 
 
         /// <summary>
@@ -95,10 +98,14 @@ namespace MH_Animal_Applikation_Upg1
                     return new Dog((Dog)animalArrayList[index]);
                 if (animalArrayList[index] is Cat)
                     return new Cat((Cat)animalArrayList[index]);
-                        //if (estateList[index] is Bee)
-                        //    return new Bee((Bee)estateList[index]);
-                        else
-                            return null;
+                if (animalArrayList[index] is Kookaburra)
+                    return new Kookaburra((Kookaburra)animalArrayList[index]);
+                if (animalArrayList[index] is Owl)
+                    return new Owl((Owl)animalArrayList[index]);
+                //if (animalArrayList[index] is Bee)
+                //    return new Bee((Bee)animalArrayList[index]);
+                else
+                    return null;
             }           
             else
                 return null;
