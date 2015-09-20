@@ -11,70 +11,48 @@ namespace MH_Animal_Applikation_Upg1.Animals
          private string _sound = "Woff";
 
 
-         public Dog(int id, string name, int age, string gender, int teeth, int tail)
-             : base(id, name, age, gender, teeth, tail)
+         public Dog(int id, string name, int age, int teeth, double tail)
+             : base(id, name, age, teeth, tail)
          {
              Sound = _sound;
          }
 
-        ///// <summary>
-        ///// The copy constructor
-        ///// </summary>
-        ///// <param name="other"></param>
-        //public Dog(Dog other)
-        //{
-        //    //this.EType = other.EType;
-        //    this.Teeth = other.Teeth;
-        //    this.Id = other.Id;
-        //    //this.PostAddress = new Creature(other.PostAddress);
-
-        //    // Then copy the special data for this estate
-        //}
-
         /// <summary>
-        /// Copy the common data from a estate object
+        /// Kopiera data from Animal objekt. 
         /// </summary>
         /// <param name="other"></param>
         public Dog(Animal other)
         {
-            this.gender = other.gender;
-            this.name = other.name;
-            this.age = other.age;
-            this.Id = other.Id;
+            this.gender = other.Gender;
+            this.name = other.Name;
+            this.age = other.Age;
+            this.id = other.Id;
+
+            //Vill använda mig av dessa properties. Men det går inte. Dessa är INTE skyddade. 
             this.teeth = other.teeth;
             this.tail = other.tail;
             //this.teeth = other.teeth;
             //this.Sound = other.Sound;
-            //this.PostAddress = new Creature(other.PostAddress);
         }
 
+        //protected SET.
         public string Sound
         {
             get
             {
                 return this._sound;
             }
-            set
+            protected set
             {
                 this._sound = value;
             }
         }
 
 
-
+        //Override the base toString, plus add extra info
          public override string ToString()
          {
              return base.ToString() + " Ljud:" + Sound;
          }
-
-        //public override string ToString()
-        //{
-        //    //Vhat is {0, -12}, {3, 6} eller {4} ?
-        //    string strOut = String.Format(" , Namn:{0} Ålder: {1},  Kön:{2}, Antal tänder:{3},  Svanslängd:{4}, Ljud: {5}", 
-        //        this.name, this.age, this.gender, this.teeth,this.tail);
-
-        //    strOut = strOut.ToUpper();
-        //    return strOut;
-        //}
     }
 }
