@@ -8,3 +8,6 @@ Object oriented programming.
 
 
 20/9 - Uppdaterade hela applikationen, tog bort massa notiser även kommenterade en heldel.  Någorlunda nöjd, men det följer inte riktigt OOP-principer men någorlunda snygg kod.
+
+
+24/9 - Added CheckForInt funktionen i Form1.
