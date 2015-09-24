@@ -8,13 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MH_Animal_Applikation_Upg1.Animals;
+using System.Text.RegularExpressions;
 
 namespace MH_Animal_Applikation_Upg1
 {
     public partial class Form1 : Form
     {
         //Cheat counter. 
-        //public int testCounter = 1;
+        public int testCounter = 1;
 
         //Instantiate animalmanager. 
         private AnimalManager animalMngr = null;  //ref variable declared
@@ -22,16 +23,20 @@ namespace MH_Animal_Applikation_Upg1
         public Form1()
         {
             InitializeComponent();
+
             //Initializations
             InitializeGUI();
+
             //AnimalManager
             animalMngr = new AnimalManager();
 
+           
         }
 
         /// <summary>
         /// Prepare the form before display
         /// Initiate input controls with default values
+        /// Remove design values from output controls (label1 ex.)
         /// </summary>
         private void InitializeGUI()
         {
@@ -45,11 +50,12 @@ namespace MH_Animal_Applikation_Upg1
             //set male as default
             listBoxGender.SelectedIndex = (int)AnimalTypes.Gender.Male;
             listBoxCategories.Items.AddRange(Enum.GetNames(typeof(AnimalTypes.AnimalType)));
+            listBoxCategories.SelectedIndex = (int)AnimalTypes.MammalsType.Dog;
         }
 
         /// <summary>
-        /// Hämata data från GUI, fyll i ett lokalt object av animal
-        /// för att senare skickas till animalmngr
+        /// Hämata data från GUI, fyll i ett lokalt object av Fastighet
+        /// för att senare skickas till fastighetMngr
         /// </summary>
         /// <param name="animalObj"></param>
         /// <returns></returns>
@@ -58,37 +64,27 @@ namespace MH_Animal_Applikation_Upg1
             //Create a local Animal instance for filling in input
             animalObj = new Animal();
 
-            //animalObj.id = testCounter++;  //Works perfectly, but beautiful code is what i want. 
+
             animalObj.Id = animalMngr.ElementCount;
+
 
             //Check the users input if its valid by boolean. False -> not valid, true ->Valid
             bool validInput = false;
 
-  
+
+            //Get the user input from textboxes
             //Check valid integer
             //methods are for checking int value from the textboxes.
             animalObj.Age = CheckAge(out validInput);
             animalObj.Gender = listBoxGender.Text;
 
-            //Check if the string is empty or null.....
-                if (String.IsNullOrEmpty(textBoxName.Text))
-                {
-                    validInput = false;
-                    MessageBox.Show("Objektet måste ha ett namn.");
-                }
-                //Get the user input from textboxes
-            animalObj.Name = textBoxName.Text;
+            //Function of check valid income.
+            //boolValue, just for checking. 
+            string boolValue = CheckForInt(out validInput);
+            string input = textBoxName.Text;
+            input.TrimStart();
+            animalObj.Name = input;
 
-            //BIG PROBLEM:!
-            // I want my class Mammals and Bird to get data, this without success. I have to have public variables
-            //in my baseclass (Animal), this is bad.
-            //I also instantiate this ones in the button method. 
-            //::::
-            //((Mammals)animalObj).Teeth = CheckTeeth(out prisOK);
-            //((Mammals)animalObj).Teeth = int.Parse(textBoxNoTeeth.Text);
-            //int x  = CheckTeeth(out prisOK);
-            //((Mammals)animalObj).teeth = x;
-            
 
             //return true or false depending on user input. 
             //If both price and nr of rooms ok, return true
@@ -104,7 +100,9 @@ namespace MH_Animal_Applikation_Upg1
         private double CheckTailLength(out bool success)
         {
             double tailLength = 0;
+
             success = double.TryParse(textBoxTailLength.Text, out tailLength);
+
 
             if (!success || tailLength < 0)
             {
@@ -112,12 +110,16 @@ namespace MH_Animal_Applikation_Upg1
                 success = false;
             }
 
+
             return tailLength;
         }
         private int CheckAge(out bool success)
         {
             int age = 0;
+
             success = int.TryParse(textBoxAge.Text, out age);
+
+            //bool validIncome = false;
 
             if (!success || (age <= 0))
             {
@@ -154,7 +156,52 @@ namespace MH_Animal_Applikation_Upg1
             return speed;
         }
 
-   
+        /// <summary>
+        /// Check the if the input string for name is valid. 
+        /// Multiple checking with -
+        /// -TrimFunction
+        /// -Regex library, search special characters
+        /// -NullOrEmpty
+        /// -Bool if textbox value is integer, then false
+        /// -IsNullOrWhiteSpace, for empty spaces
+        /// </summary>
+        /// <param name="successtest"></param>
+        /// <returns></returns>
+        private string CheckForInt(out bool successtest)
+        {
+            var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
+            string name = "";
+            string input = textBoxName.Text;
+                
+
+            int checkForNumber = 0;
+
+            bool boolValue = int.TryParse(textBoxName.Text, out checkForNumber);
+            //Check if the string is empty or null || income is integer.....
+            if (String.IsNullOrEmpty(input) || boolValue)
+            {
+                successtest = false;
+                MessageBox.Show("Objektet måste ha ett namn. INGA SIFFROR!");
+            }
+            //check the regex for special charachters, || just spaces not aloud.
+            else if (!regexItem.IsMatch(input) || string.IsNullOrWhiteSpace(input))
+            {
+                successtest = false;
+                MessageBox.Show("No special characters or empty spaces!");
+            }
+            else
+            {
+                //Set true
+                name = input.TrimStart();
+                successtest = true;
+            }
+                    
+        //Wont work. uhm?
+           // name = input.TrimStart();
+
+            return name;
+
+        }
 
 
         private void button1_Click(object sender, EventArgs e)
@@ -162,6 +209,7 @@ namespace MH_Animal_Applikation_Upg1
             Animal animalObject;  //holder for input
             //AnimalFactory testtt;
             
+
             //Send this object to ReadInput
             //for filling in values (input)
             //out tells ReadInput that the variable 
@@ -182,19 +230,10 @@ namespace MH_Animal_Applikation_Upg1
                     case AnimalTypes.AnimalType.Mammals:
                         {
 
-                            //Jag vill att dessa ska fungera!
+                            //Jag vill att dessa ska fungera!! Men det gör dem inte!!
                             //((Mammals)animalObject).teeth = CheckTeeth(out validInput);
                             //((Mammals)animalObject).teeth = int.Parse(textBoxNoTeeth.Text);
 
-                            //3 av mina variabler är public, inte PROTECTED. ogilla
-                            //Så blir dem protected i min properties i min Mammals klass. Förstår inte vad
-                            //jag bör göra för att få det bra? Jag vill instansiera mina objekt på det sätt jag
-                            //gör just nu. Men mitt problem är hur jag kommer åt min mellanklass samt skyddar de
-                            //argument som kommer in i klasserna. 
-
-                            //I det stora hela ska inte ens mina teeth och tail variablar vara i min Animalklass (BaseClass)
-                            //Jag har inget alternativ om jag vill instansiera med en parameter till objektet?
-                            
                             bool validTail = false;
                             animalObject.teeth = CheckTeeth(out validNrTeeth);
                             animalObject.tail = CheckTailLength(out validTail);
@@ -209,6 +248,7 @@ namespace MH_Animal_Applikation_Upg1
 
                              
                             }
+
                             break;
                         }
                     case AnimalTypes.AnimalType.Bird:
@@ -224,6 +264,7 @@ namespace MH_Animal_Applikation_Upg1
                             {
                                 //--Get choosen value from enum. And convert it
                                 AnimalTypes.BirdType insectObj = (AnimalTypes.BirdType)Enum.Parse(typeof(AnimalTypes.BirdType), listBoxAnimalObject.Text);
+
                                 //..Use the converted choosen enum objekt. IN THE SAME TIME ADD IT TO LIST ARRAY!
                                 //Less code. 
                                 animalMngr.Add(AnimalFactory.GetInsect(insectObj.ToString(), animalObject));
@@ -234,6 +275,8 @@ namespace MH_Animal_Applikation_Upg1
 
                 //Then Update the GUI
                 UpdateResults();
+                //estate.id = animalMngr.ElementCount;
+                //estate.id = animalMngr.counter;
                 //animalMngr.countId();
             }
         }
@@ -245,23 +288,28 @@ namespace MH_Animal_Applikation_Upg1
         /// </summary>
         private void UpdateResults()
         {
+            
             lstResults.Items.Clear();  //Erase current list
+            
             //Get one elemnet at a time from manager, and call its 
             //ToString method for info - send to listbox
             for (int index = 0; index < animalMngr.ElementCount; index++)
             {
                 //Q: Vhy not use new in the line below?
                 Animal animal = animalMngr.GetElementAtPosition(index);
+
                 // We can get an animal since here we don't need to separate
                 // the different animal,ej, we are only interested in the toString method.
                 lstResults.Items.Add(animal.ToString());
                 //Försök till unikt ID.
                 //lstResults.Items.Add(estate.ToString() + estateMngr.countId());
             }
+            
         }
 
         private void listBoxCategories_SelectedIndexChanged(object sender, EventArgs e)
         {
+
             if (listBoxCategories.SelectedIndex == (int)AnimalTypes.AnimalType.Mammals)
             {
 
@@ -292,5 +340,6 @@ namespace MH_Animal_Applikation_Upg1
                 listBoxAnimalObject.SelectedIndex = (int)AnimalTypes.BirdType.Kookaburra; 
             }
         }
+
     }
 }
