@@ -8,6 +8,8 @@ namespace MH_Animal_Applikation_Upg1
 {
     class AnimalTypes
     {
+
+
         public enum MammalsType
         {
             Dog,
