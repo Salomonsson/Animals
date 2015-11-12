@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace MH_Animal_Applikation_Upg1.Animals
 {
-    class Owl : Bird
+    public class Owl : Bird
     {
-
         public Owl()
         {
+            //Instantiate foodSchedule
+            //myFood.Add("09:00 Möss");
+            //myFood.Add("04:00 Orm");
+            //myFood.Add("01:00 Kattunge");
 
         }
         public Owl(int id, string name, int age, double speed)
@@ -27,6 +30,25 @@ namespace MH_Animal_Applikation_Upg1.Animals
 
              //Not protected - BAD, really BAD!
              this.speed = other.speed;
+
+             //Instantiate foodSchedule
+             myFood.Add("09:00 Möss");
+             myFood.Add("04:00 Orm");
+             myFood.Add("01:00 Kattunge");
+         }
+
+         public override FoodSchedule GetFoodschedule() { return myFood; }
+
+         public override string IsGoodFor()
+         {
+             //return EaterTypes.EaterType.Carnivora;
+             return EaterTypes.EaterType.Carnivora.ToString();
+             //return (eater == EaterType.Carnivora) || (eater == EaterType.Omnivorous);
+         }
+
+         public override string GetSpecies()
+         {
+             return AnimalTypes.BirdType.Owl.ToString();
          }
 
          //Override the base toString, plus add extra info
