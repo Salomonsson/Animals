@@ -6,15 +6,24 @@ using System.Threading.Tasks;
 
 namespace MH_Animal_Applikation_Upg1.Animals
 {
-    class Cat :  Mammals
+    public class Cat :  Mammals
     {
         private string _sound = "Mjaaaau";
 
+        public Cat()
+        {
+            myFood.Add("09:00 Whiskas");
+            myFood.Add("11:00 Orijen Cat & Kitten");
+            myFood.Add("14:00 Brit Care Monty Kitten");
+            myFood.Add("17:00 Whiskas Chicken");
+            myFood.Add("21:00 Whiskas Beef");
 
+        }
          public Cat(int id, string name, int age, int teeth, double tail)
              : base(id, name, age, teeth, tail)
          {
-
+             
+           
          }
          public Cat(Animal other)
          {
@@ -27,21 +36,20 @@ namespace MH_Animal_Applikation_Upg1.Animals
              //i Mammals klassen.
              this.teeth = other.teeth;
              this.tail = other.tail;
-             //this.MammalsObjekt = new Mammals(other.MammalsObjekt);
+
+
+             //myFood.Add("09:00 Whiskas");
+             //myFood.Add("11:00 Orijen Cat & Kitten");
+             //myFood.Add("14:00 Brit Care Monty Kitten");
+             //myFood.Add("17:00 Whiskas Chicken");
+             //myFood.Add("21:00 Whiskas Beef");
          }
 
         //Här har jag försökt med en hierarkisk copy constrcutor. Dvs. den arvs stegvis nedåt. Detta för att jag vill
         //instansiera objekten med EN-Parameter. Vilket jag tycker är snyggast. 
 
-        //public Cat(Mammals other)
-        //{
-        //    this.teeth = other.teeth;
-        //    this.tail = other.tail;
-        //    //this.Sound = other.Sound;
-        //    //this.PostAddress = new Creature(other.PostAddress);
-        //}
 
-        //Protected SET.
+        //Properties - Protected SET.
         public string Sound
         {
             get
@@ -54,10 +62,26 @@ namespace MH_Animal_Applikation_Upg1.Animals
             }
         }
 
+        public override string IsGoodFor()
+        {
+            //return EaterTypes.EaterType.Carnivora;
+            return EaterTypes.EaterType.Carnivora.ToString();
+            //return (eater == EaterType.Carnivora) || (eater == EaterType.Omnivorous);
+        }
+
+        public override string GetSpecies()
+        {
+            return AnimalTypes.MammalsType.Cat.ToString();
+        }
+
+
+        public override FoodSchedule GetFoodschedule() { return myFood; }
+
         //Override the base toString, plus add extra info
         public override string ToString()
         {
-            return base.ToString() + " Ljud:" + Sound;
+            //return base.ToString() + " Ljud:" + Sound;
+            return base.ToString() + " Antal tänder:" + Teeth + " Svanslängd:" + Tail + " Ljud:" + Sound;
         }
     }
 }
