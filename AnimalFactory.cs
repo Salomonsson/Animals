@@ -12,16 +12,16 @@ namespace MH_Animal_Applikation_Upg1
         /// <summary>
         /// Decides which class to instantiate.
         /// </summary>
-        public static Animal GetMammal(string type, Animal animalObj)
+        public static Animal GetMammal(string type)
         {
             Animal obj = null;
             switch (type)
             {
                 case "Dog":
-                    obj = new Dog(animalObj);
+                    obj = new Dog();
                     break;
                 case "Cat":
-                    obj = new Cat(animalObj);
+                    obj = new Cat();
                     break;
                 default:
                     break;
@@ -29,16 +29,16 @@ namespace MH_Animal_Applikation_Upg1
             return obj;
         }
 
-        public static Animal GetInsect(string type, Animal animalObj)
+        public static Animal GetInsect(string type)
         {
             Animal obj = null;
             switch (type)
             {
                 case "Kookaburra":
-                    obj = new Kookaburra(animalObj);
+                    obj = new Kookaburra();
                     break;
                 case "Owl":
-                    obj = new Owl(animalObj);
+                    obj = new Owl();
                     break;
                 default:
                     break;
