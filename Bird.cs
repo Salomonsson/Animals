@@ -12,8 +12,9 @@ namespace MH_Animal_Applikation_Upg1.Animals
     //För att lära mig. Denna klass skiljer sig gentemot min Mammalsklass då Bird hämtar metoder och data från Kookaburra
     // och Owl. Det finns ingen ToString i de klasserna. Detta fungerar utmärkt. Dock vet jag inte hur det blir för framtida
     //förändringar om det finns risk för att hela applikatinen kommer att bli knäpp.
-    class Bird : Animal
+   public abstract class Bird : Animal
     {
+
         public Bird()
         {
 
@@ -24,7 +25,6 @@ namespace MH_Animal_Applikation_Upg1.Animals
         {
 
         }
-
 
         //Virtual method för att hämta data från underklass i en override method.
         public virtual string Sound
@@ -54,3 +54,26 @@ namespace MH_Animal_Applikation_Upg1.Animals
         }
     }
 }
+
+
+
+
+
+
+
+
+//public override FoodSchedule GetFoodschedule() { return myFood; }
+
+////Virtual method för att hämta data från underklass i en override method.
+////public virtual string getSchedule();
+////public override string getSchedule()
+////{
+////    return "Fåglar äter faktiskt glass";
+////}
+
+//public override string IsGoodFor()
+//{
+//    //return EaterTypes.EaterType.Carnivora;
+//    return EaterTypes.EaterType.Herbivore.ToString();
+//    //return (eater == EaterType.Carnivora) || (eater == EaterType.Omnivorous);
+//}
