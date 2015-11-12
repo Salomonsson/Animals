@@ -4,12 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace MH_Animal_Applikation_Upg1.Animals
 {
-    class Dog : Mammals
+    public class Dog : Mammals
     {
          private string _sound = "Woff";
 
+        public Dog (){
+
+            myFood.Add("10:00 Pedigree");
+            myFood.Add("15:00 KingsMoore Original");
+            myFood.Add("15:30 Hills Adult Medium Hundfoder");
+        }
 
          public Dog(int id, string name, int age, int teeth, double tail)
              : base(id, name, age, teeth, tail)
@@ -33,9 +40,13 @@ namespace MH_Animal_Applikation_Upg1.Animals
             this.tail = other.tail;
             //this.teeth = other.teeth;
             //this.Sound = other.Sound;
+
+            //myFood.Add("10:00 Pedigree");
+            //myFood.Add("15:00 KingsMoore Original");
+            //myFood.Add("15:30 Hills Adult Medium Hundfoder");
         }
 
-        //protected SET.
+        //Properties - protected SET.
         public string Sound
         {
             get
@@ -49,10 +60,25 @@ namespace MH_Animal_Applikation_Upg1.Animals
         }
 
 
+        public override string IsGoodFor()
+        {
+            //return EaterTypes.EaterType.Carnivora;
+            return EaterTypes.EaterType.Herbivore.ToString();
+            //return (eater == EaterType.Carnivora) || (eater == EaterType.Omnivorous);
+        }
+
+        public override string GetSpecies()
+        {
+            return AnimalTypes.MammalsType.Dog.ToString();
+        }
+
+        public override FoodSchedule GetFoodschedule() { return myFood; }
+
         //Override the base toString, plus add extra info
          public override string ToString()
          {
-             return base.ToString() + " Ljud:" + Sound;
+             //myClass.foodDescriptionList.Add("OJDAN");
+             return base.ToString() + " Antal tänder:"+ Teeth + " Svanslängd:" + Tail + " Ljud:" + Sound;
          }
     }
 }
