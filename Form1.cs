@@ -15,10 +15,19 @@ namespace MH_Animal_Applikation_Upg1
     public partial class Form1 : Form
     {
         //Cheat counter. 
-        public int testCounter = 1;
+       // public int testCounter = 1;
 
         //Instantiate animalmanager. 
         private AnimalManager animalMngr = null;  //ref variable declared
+        //Food schedule instans behövs inte, den instnsieras i animal klassen? men egentligen inte. uhm.
+       // FoodSchedule instanceFoodSchedule = new FoodSchedule();
+
+        //ListManager<AnimalManager> animalMngr = null;
+        //public Recipe testMatreceot = null;
+
+        //public Recipe testMatreceot = new Recipe();
+        public RecipeManager rcpMngr = new RecipeManager();
+        public StaffManager stfMngr = new StaffManager();
 
         public Form1()
         {
@@ -27,9 +36,12 @@ namespace MH_Animal_Applikation_Upg1
             //Initializations
             InitializeGUI();
 
+            //rcpMngr = new RecipeManager();
             //AnimalManager
             animalMngr = new AnimalManager();
-
+            //instanceFoodSchedule = new FoodSchedule();
+            //animalMngr = new ListManager<AnimalManager>();
+           
            
         }
 
@@ -51,46 +63,17 @@ namespace MH_Animal_Applikation_Upg1
             listBoxGender.SelectedIndex = (int)AnimalTypes.Gender.Male;
             listBoxCategories.Items.AddRange(Enum.GetNames(typeof(AnimalTypes.AnimalType)));
             listBoxCategories.SelectedIndex = (int)AnimalTypes.MammalsType.Dog;
+            
         }
 
+
+
+        #region Validation
         /// <summary>
-        /// Hämata data från GUI, fyll i ett lokalt object av Fastighet
-        /// för att senare skickas till fastighetMngr
+        /// Validation of Tail-length, Age, Number of teeths, speed of bird and Name of the object. 
         /// </summary>
-        /// <param name="animalObj"></param>
-        /// <returns></returns>
-        private bool UserInput(out Animal animalObj)
-        {
-            //Create a local Animal instance for filling in input
-            animalObj = new Animal();
-
-
-            animalObj.Id = animalMngr.ElementCount;
-
-
-            //Check the users input if its valid by boolean. False -> not valid, true ->Valid
-            bool validInput = false;
-
-
-            //Get the user input from textboxes
-            //Check valid integer
-            //methods are for checking int value from the textboxes.
-            animalObj.Age = CheckAge(out validInput);
-            animalObj.Gender = listBoxGender.Text;
-
-            //Function of check valid income.
-            //boolValue, just for checking. 
-            string boolValue = CheckForInt(out validInput);
-            string input = textBoxName.Text;
-            input.TrimStart();
-            animalObj.Name = input;
-
-
-            //return true or false depending on user input. 
-            //If both price and nr of rooms ok, return true
-            return validInput;
-        }
-
+        /// 
+        
 
         /// <summary>
         /// Four methods to check valid income data. Integer for Age and Teeth. Double for Tail-length and Speed.
@@ -119,12 +102,12 @@ namespace MH_Animal_Applikation_Upg1
 
             success = int.TryParse(textBoxAge.Text, out age);
 
-            //bool validIncome = false;
 
             if (!success || (age <= 0))
             {
-                MessageBox.Show("The entered age is not valid, the input must be an integer!");
                 success = false;
+                MessageBox.Show("The entered age is not valid, the input must be an integer!");
+                
             }
 
             return age;
@@ -167,7 +150,7 @@ namespace MH_Animal_Applikation_Upg1
         /// </summary>
         /// <param name="successtest"></param>
         /// <returns></returns>
-        private string CheckForInt(out bool successtest)
+        private string CheckValidName(out bool successtest)
         {
             var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
             string name = "";
@@ -201,26 +184,56 @@ namespace MH_Animal_Applikation_Upg1
 
             return name;
 
+
+                //int checkForNumber = 0;
+                //bool boolValue = int.TryParse(textBoxName.Text, out checkForNumber);
+                ////Check if the string is empty or null.....
+                //if (String.IsNullOrEmpty(textBoxName.Text) || boolValue)
+                //{ 
+                //    validInput = false;
+                //    MessageBox.Show("Objektet måste ha ett namn. INGA SIFFROR!");
+                //}
+
+
+                //var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
+
+                //if (!regexItem.IsMatch(input))
+                //{
+                //    validInput = false;
+                //    MessageBox.Show("No special characters!");
+                //}
+
+
+                //int checkForNumber = 0;
+                //bool boolValue = int.TryParse(textBoxName.Text, out checkForNumber);
+                ////Check if the string is empty or null.....
+                //if (String.IsNullOrEmpty(textBoxName.Text) || boolValue)
+                //{
+                //    validInput = false;
+                //    MessageBox.Show("Objektet måste ha ett namn. INGA SIFFROR!");
+                //}
         }
+
+        #endregion
+
 
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Animal animalObject;  //holder for input
-            //AnimalFactory testtt;
-            
+            //Update Food schema listan.
+            listBoxFood.Items.Clear();
 
-            //Send this object to ReadInput
-            //for filling in values (input)
-            //out tells ReadInput that the variable 
-            //is data out. All changes to this object
-            //comes back here.
-            //ReadInput creates all data used for the common fields of all estates.
-            //The special for each are filled in later in the switch case.
-            bool ok = UserInput(out animalObject);
-            
 
-            if (ok)  //If all common data (in variable estate) is OK
+            //boolValue, just for checking. 
+            bool validInput = false;
+            bool validAge = false;
+
+            //Check valid nA
+            CheckValidName(out validInput);
+            CheckAge(out validAge);
+
+
+            if (validAge && validInput)  //If all common data (in variable estate) is OK
             {
                 //Check if valid input for teeth textbox
                 bool validNrTeeth = false;
@@ -229,25 +242,51 @@ namespace MH_Animal_Applikation_Upg1
                 {
                     case AnimalTypes.AnimalType.Mammals:
                         {
-
-                            //Jag vill att dessa ska fungera!! Men det gör dem inte!!
-                            //((Mammals)animalObject).teeth = CheckTeeth(out validInput);
-                            //((Mammals)animalObject).teeth = int.Parse(textBoxNoTeeth.Text);
-
+                            //Check if the input is valid or not!
                             bool validTail = false;
-                            animalObject.teeth = CheckTeeth(out validNrTeeth);
-                            animalObject.tail = CheckTailLength(out validTail);
+                            CheckTeeth(out validNrTeeth);
+                            CheckTailLength(out validTail);
 
                             //If number of teeth and tail length is valid.Then create object
                             if (validNrTeeth && validTail)
                             {
                                 AnimalTypes.MammalsType mammalObj = (AnimalTypes.MammalsType)Enum.Parse(typeof(AnimalTypes.MammalsType), listBoxAnimalObject.Text);
+                                Animal instanceAnimal = AnimalFactory.GetMammal(mammalObj.ToString());
+
+                                
+                                //Late Binding                                
+                                instanceAnimal.Name = textBoxName.Text;
+                                instanceAnimal.Id = animalMngr.Count;
+                                instanceAnimal.Age = int.Parse(textBoxAge.Text);
+                                instanceAnimal.Gender = listBoxGender.Text;
+
+                                //Vilket är bäst??
+                                instanceAnimal.teeth = int.Parse(textBoxNoTeeth.Text);
+                                //instanceAnimal.teeth = CheckTeeth(out validNrTeeth);
+
+                                instanceAnimal.tail = double.Parse(textBoxTailLength.Text);
+                                //animalMngr.Add(instanceAnimal);
+                                animalMngr.AddAnimal(instanceAnimal);
+
+                                
+
+                                //Get FoodSchedule information. Is this correct? KISS - Keep it simple STUPID!
+                                //instanceFoodSchedule.Add(position.getSchedule());
+                                //label14.Text = instanceAnimal.IsGoodFor();
+                                //////Här loopar jag ut från min list, som instansieras i djurobjektet
+                                //foreach (string itemFoodSchedule in instanceAnimal.GetFoodschedule().GetList())
+                                //{
+                                //    listBoxFood.Items.Add(itemFoodSchedule);
+                                //}
+                         
+
                                 //..Use the converted choosen enum objekt. IN THE SAME TIME ADD IT TO LIST ARRAY!
                                 //This means less code. 
-                                animalMngr.Add(AnimalFactory.GetMammal(mammalObj.ToString(), animalObject));
+                                //animalMngr.Add(AnimalFactory.GetMammal(mammalObj.ToString(), animalObject));
 
                              
                             }
+              
 
                             break;
                         }
@@ -256,32 +295,62 @@ namespace MH_Animal_Applikation_Upg1
                             bool validSpeed = false;
                             
                             //Add speed to object.
-                            animalObject.speed = CheckSpeed(out validSpeed);
-                            animalObject.teeth = CheckTeeth(out validNrTeeth);
+                            CheckSpeed(out validSpeed);
+                            CheckTeeth(out validNrTeeth);
 
                             //If number of teeth and tail length is valid.Then create object
                             if (validNrTeeth && validSpeed)
                             {
                                 //--Get choosen value from enum. And convert it
                                 AnimalTypes.BirdType insectObj = (AnimalTypes.BirdType)Enum.Parse(typeof(AnimalTypes.BirdType), listBoxAnimalObject.Text);
+                                Animal instanceAnimal = AnimalFactory.GetInsect(insectObj.ToString());
 
-                                //..Use the converted choosen enum objekt. IN THE SAME TIME ADD IT TO LIST ARRAY!
-                                //Less code. 
-                                animalMngr.Add(AnimalFactory.GetInsect(insectObj.ToString(), animalObject));
+                                //Late binding
+                                instanceAnimal.Name = textBoxName.Text;
+                                instanceAnimal.Id = animalMngr.Count;
+                                instanceAnimal.Age = int.Parse(textBoxAge.Text);
+                                instanceAnimal.Gender = listBoxGender.Text;
+
+                                
+                                instanceAnimal.teeth = int.Parse(textBoxNoTeeth.Text);
+                                //instanceAnimal.teeth = CheckTeeth(out validNrTeeth);
+
+                                instanceAnimal.speed = double.Parse(textBoxSpeed.Text);
+                               
+                                //animalMngr.Add(instanceAnimal);
+                                animalMngr.AddAnimal(instanceAnimal);
+
+
+                                //MATSCHEMA - BEHVS INTE LÄNGRE ELLER?
+                                //Get FoodSchedule information. Is this correct? KISS - Keep it simple STUPID!
+                                //instanceFoodSchedule.Add(position.getSchedule());
+                                //label14.Text = instanceAnimal.IsGoodFor();
+                                //////Här loopar jag ut från min list, som instansieras i djurobjektet
+                                //foreach (string itemFoodSchedule in instanceAnimal.GetFoodschedule().GetList())
+                                //{
+                                //    listBoxFood.Items.Add(itemFoodSchedule);
+                                //}
+                                
                             }
                             break;
                         }
                 }
 
+
+                lstResults.Items.Clear();
                 //Then Update the GUI
-                UpdateResults();
-                //estate.id = animalMngr.ElementCount;
-                //estate.id = animalMngr.counter;
-                //animalMngr.countId();
+                //UpdateResults();
+
+                //Denna fungerar ypperligt! MEN jag gillar inte loop här! 
+                foreach (string item in animalMngr.ToStringArray())
+                {
+                    lstResults.Items.Add(item);
+                }
+
+
             }
         }
 
-     
 
         /// <summary>
         /// Reset result list and fill in with new values
@@ -289,22 +358,36 @@ namespace MH_Animal_Applikation_Upg1
         private void UpdateResults()
         {
             
-            lstResults.Items.Clear();  //Erase current list
             
-            //Get one elemnet at a time from manager, and call its 
-            //ToString method for info - send to listbox
-            for (int index = 0; index < animalMngr.ElementCount; index++)
-            {
-                //Q: Vhy not use new in the line below?
-                Animal animal = animalMngr.GetElementAtPosition(index);
+           lstResults.Items.Clear();  //Erase current list
+           
+           foreach (var item in animalMngr.ToStringList())
+           {
+               lstResults.Items.Add(item);
+           }
+            
+            ////Get one elemnet at a time from manager, and call its 
+            ////ToString method for info - send to listbox
+            //for (int index = 0; index < animalMngr.Count; index++)
+            //{
+            //    //Q: Vhy not use new in the line below?
+            //    Animal animal = animalMngr.GetElementAtPosition(index);
 
-                // We can get an animal since here we don't need to separate
-                // the different animal,ej, we are only interested in the toString method.
-                lstResults.Items.Add(animal.ToString());
-                //Försök till unikt ID.
-                //lstResults.Items.Add(estate.ToString() + estateMngr.countId());
-            }
+
+            //    // We can get an animal since here we don't need to separate
+            //    // the different animal,ej, we are only interested in the toString method.
+            //    lstResults.Items.Add(animal.ToString());
+            //    //Försök till unikt ID.
+            //    //lstResults.Items.Add(estate.ToString() + estateMngr.countId());
+            //}
             
+        }
+
+
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void listBoxCategories_SelectedIndexChanged(object sender, EventArgs e)
@@ -341,5 +424,251 @@ namespace MH_Animal_Applikation_Upg1
             }
         }
 
+        private void textBoxTailLength_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listViewFoodSchedule_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBoxFood_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lstResults_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (lstResults.SelectedIndex >= 0) // skall ju endast göra något OM något djur är markerat, är inget markerat är index -1
+            {
+            listBoxFood.Items.Clear();
+            string getAnimal = animalMngr.GetAt(lstResults.SelectedIndex).GetSpecies();
+            
+            //List<string> food = animalMngr.GetElementAtPosition(lstResults.SelectedIndex).GetFoodschedule().GetList(); // Hämta aktuellt djurs FoodSchedule lista
+           // List<string> food = te2.Add(animalMngr.GetElementAtPosition(lstResults.SelectedIndex).GetFoodschedule().GetList());
+            //te.add(food);
+            //List<string> food = animalMngr.GetType(lstResults.SelectedIndex)
+            switch (animalMngr.GetAt(lstResults.SelectedIndex).GetSpecies())
+            {
+
+                case "Dog":
+                    //listBoxFood.Items.Add(getAnimal);
+                    Animal dog = AnimalFactory.GetMammal(animalMngr.GetAt(lstResults.SelectedIndex).GetSpecies());
+            //switch ((AnimalTypes.AnimalType)lstResults.SelectedIndex)
+            //{
+            //    case AnimalTypes.MammalsType.Dog:        
+                //listBoxFood.Items.Add(instanceAnimalTEST.GetFoodschedule().ToString());
+                        //listBoxFood.Items.AddRange(instanceAnimalTEST.GetFoodschedule());
+                        //List<string> food = dog.GetFoodschedule().GetList();
+
+                       // listBoxFood.Items.Add(animalMngr.GetAt(lstResults.SelectedIndex).GetFoodschedule().GetList());
+                       //JAG får ju ut att det är dog objekt, jag behöver instansen av food schedula som passar alla dog objekt!
+                    //Där av behöver jag inte länka till någon manager, för behöver bara vet matschema.
+                       //listBoxFood.Items.Add(dog.GetSpecies());
+                        foreach (string dogFood in dog.GetFoodschedule().GetList())
+                        {
+                            listBoxFood.Items.Add(dogFood); // överför strängarna till listan
+                            //listBoxFood.Items.Add(s);
+                        }
+                        break;
+                    case "Cat":
+                        //listBoxFood.Items.Add(getAnimal);
+                        Animal cat = AnimalFactory.GetMammal(animalMngr.GetAt(lstResults.SelectedIndex).GetSpecies());
+                        //listBoxFood.Items.Add(cat.GetFoodschedule().ToString());
+                        //listBoxFood.Items.AddRange(instanceAnimalTEST.GetFoodschedule());
+                        foreach (string catFood in cat.GetFoodschedule().GetList())
+                        {
+                            listBoxFood.Items.Add(catFood); // överför strängarna till listan
+                        }
+
+                        break;
+                      
+                }
+            //for (int i = 0; i < food.ToList; i++)
+            //{
+            //    System.Console.WriteLine(food[i]);
+            //}
+            //listBoxFood.Items.Add(food);
+            //listBoxFood.Items.Add(listBoxFood.Items.Add(animalMngr.GetAt(lstResults.SelectedIndex).GetSpecies()));
+            //listBoxFood.Items.Add(getAnimal);
+            //foreach (string s in food){
+            //    listBoxFood.Items.Add(s); // överför strängarna till listan
+            //}
+
+            //label14.Text = animalMngr.GetElementAtPosition(lstResults.SelectedIndex).IsGoodFor(); // överför eatertype till label (döp om till lblEaterType)
+            label14.Text = animalMngr.GetAt(lstResults.SelectedIndex).IsGoodFor();
+            }
+        }
+
+        private void buttonAddStaff_Click(object sender, EventArgs e)
+        {
+            FormAddStaff formStaff = new FormAddStaff();
+
+            if (formStaff.ShowDialog() == DialogResult.OK)
+            {
+                //listBoxMetaInfo.Items.Clear();
+                //Staff personal = staffMngr.GetAt(0);
+                stfMngr.Add(formStaff.Staff);
+                //listBoxMetaInfo.Items.Add(stfMngr.GetAt(0).ToString());
+
+                //listBoxMetaInfo.Items.Add(stfMngr.ToStringArray());
+                foreach (var item in stfMngr.ToStringArray())
+                {
+                    listBoxMetaInfo.Items.Add(item);
+                }
+
+            }
+
+        }
+
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+            if (lstResults.SelectedIndex >= 0) // skall ju endast göra något OM något djur är markerat, är inget markerat är index -1
+            {
+                //Get id as a variable.
+                
+                string getName = animalMngr.GetAt(lstResults.SelectedIndex).Name;
+                string getGender = animalMngr.GetAt(lstResults.SelectedIndex).Gender;
+                string getAnimal = animalMngr.GetAt(lstResults.SelectedIndex).GetSpecies();
+
+                DialogResult result2 = MessageBox.Show("Vill du ta bort följande objekt?? " +
+                    Environment.NewLine +
+                     //animalMngr.GetElementAtPosition(lstResults.SelectedIndex).ToString(),
+                     //animalMngr.GetAt(lstResults.SelectedIndex),
+                     "Namn:" + getName + " Kön:" + getGender + " Typ av Djur:" + getAnimal,
+                "Delete",
+                MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Question);
+
+                if (result2 == DialogResult.Yes)
+                {
+                    //remove from listManager.
+                    animalMngr.DeleteAt(lstResults.SelectedIndex);
+                    lstResults.Items.Clear();
+
+                    //Denna fungerar ypperligt! MEN jag gillar inte loop här! 
+                    foreach (string item in animalMngr.ToStringArray())
+                    {
+                        lstResults.Items.Add(item);
+                    }
+
+                }
+                else if (result2 == DialogResult.No)
+                {
+                    //do something else
+                }
+
+            }
+        }
+
+        private void buttonAddFood_Click(object sender, EventArgs e)
+        {
+            RecipeForm formRecipe = new RecipeForm();
+            //f3.ShowDialog(); // Shows Form2
+
+            if (formRecipe.ShowDialog() == DialogResult.OK)
+            {
+                //Add to listManager
+                rcpMngr.Add(formRecipe.Recepie);
+                //Get the object from listManager
+                //listBoxMetaInfo.Items.Add(rcpMngr.ToStringArray());
+                foreach (var item in rcpMngr.ToStringArray())
+                {
+                    listBoxMetaInfo.Items.Add(item);
+                }
+
+            }
+        }
+
+
+
     }
 }
+
+
+
+
+// SOME CODE IS HARD TO LET GO OFF. BEAUTY WILL BE MISSED.
+
+/// <summary>
+/// Hämata data från GUI, fyll i ett lokalt object av animal
+/// för att senare skickas till animalMngr
+/// </summary>
+/// <param name="animalObj"></param>
+/// <returns></returns>
+//private bool UserInput(out Animal animalObj)
+//{
+//    //Create a local Animal instance for filling in input
+//    animalObj = new Animal();
+//    //Animal te = null;
+
+//    //Animal objects is saved to an arraylist, here is one of the few times i tried to loop out
+//    //each objekt for counting them. This without success. 
+//    //foreach (var item in animalMngr.animalArrayList)
+//    //{
+//    //   testCounter++;
+
+//    //}
+
+
+//    //<>Here is plenty more tries to get the count of object correct. this still fails since it starts
+//    //with 0, my testCounter gives correct results but it's ugly coding, -> DISLIKE!
+//    //animalObj.id = animalMngr.objCount;
+//    //animalObj.id = testCounter++;  //Works perfectly, but beautiful code is what i want. 
+//    //animalObj.id = testCounter;
+//    animalObj.Id = animalMngr.ElementCount;
+//    //animalMngr.countId(animalMngr.animalArrayList);
+//    //animalObj.id = animalMngr.countId(animalMngr.animalArrayList);
+//    //animalObj.id = animalMngr.ElementCount;
+
+
+//    //Check the users input if its valid by boolean. False -> not valid, true ->Valid
+//    bool validAge = false;
+//    //Check valid integer
+//    //methods are for checking int value from the textboxes.
+//    animalObj.Age = CheckAge(out validAge);
+//    animalObj.Gender = listBoxGender.Text;
+
+
+
+//    //int checkForNumber = 0;
+//    //bool boolValue = int.TryParse(textBoxName.Text, out checkForNumber);
+//    ////Check if the string is empty or null.....
+//    //if (String.IsNullOrEmpty(textBoxName.Text) || boolValue)
+//    //{ 
+//    //    validInput = false;
+//    //    MessageBox.Show("Objektet måste ha ett namn. INGA SIFFROR!");
+//    //}
+//    //Get the user input from textboxes
+
+//    //Function of check valid income.
+//    //boolValue, just for checking. 
+//    bool validInput = false;
+//    string boolValue = CheckForInt(out validInput);
+//    animalObj.Name = boolValue;
+
+//    //BIG PROBLEM:!
+//    // I want my class Mammals and Bird to get data, this without success. I have to have public variables
+//    //in my baseclass (Animal), this is bad. Big dislike. 
+//    //I also instantiate this ones in the button method. 
+//    //::::
+//    //((Mammals)animalObj).Teeth = CheckTeeth(out prisOK);
+//    //((Mammals)animalObj).Teeth = int.Parse(textBoxNoTeeth.Text);
+//    //int x  = CheckTeeth(out prisOK);
+//    //((Mammals)animalObj).teeth = x;
+
+
+//    //return true or false depending on user input. 
+//    //If both valid name and age ok, return true
+
+
+//    return validInput && validAge;
+//}
