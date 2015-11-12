@@ -8,72 +8,38 @@ using System.Collections;
 
 namespace MH_Animal_Applikation_Upg1
 {
-    class AnimalManager
+    public class AnimalManager : ListManager<Animal>
     {
 
-        
-        //private List<Animal> estateList; //declaration, not yet created
+
+        private int setID = 0;
+        public string strOut;
+        //private List<Animal> animalArrayList; //declaration, not yet created
         //Jag beslöt mig för att använda mig av arrayList, detta för jag trodde att jag kunde loopa ut 
         //unikt id med foreach loop för varje objekt som är lagrat i arrayn. Problemet är dock att jag inte får
         //det att fungera. Jag vet inte varför, jag tycker att det är fullt logiskt att det ska fungera. Jag kanske
         //ska testa Eunumerable list, för att loopa ut allt utan att bry mig om vad det för typ av data. Uhm...
-        public ArrayList animalArrayList = new ArrayList();
+        //public ArrayList animalArrayList = new ArrayList();
+       // private List<Animal> animalArrayList;
 
         //Ett försök till foreach. Börjar på 1.
-        public int counter = 1;
+        //public int counter = 1;
 
         //Konstruktor - skapa objekten som ingår som variabler 
         /// <summary>
-        /// Default constructor - create the estate list
+        /// Default constructor - create the Animal list
         /// </summary>
         public AnimalManager()
         {
-            //1.  Create the list object
-            animalArrayList = new ArrayList(); 
            
         }
 
-        public AnimalManager(AnimalManager other)
+        public void AddAnimal(Animal an)
         {
-            this.animalArrayList = other.animalArrayList;
-            //this.id = other.id;
+            an.Id = setID++;
+            this.Add(an);
         }
 
-
-        //Får inte denna att fungera. Det kommer ut hel fel antal, den adderar helt knäppt.
-        public int countId()
-        {
-            foreach (var item in animalArrayList)
-            {
-                counter = counter++;
-            }
-            return counter;
-        }
-
-
-        public int objCount
-        {
-            get { return this.counter; }
-        }
-        /// <summary>
-        /// Add a new animal object to the arraylist
-        /// </summary>
-        /// <param name="estObj"></param>
-        public void Add(Animal estObj)
-        {
-            if (estObj != null)  //Important - the object must be created (in calling method)
-                animalArrayList.Add(estObj);
-        }
-
-
-
-        /// <summary>
-        /// Read only property to get nr of elemnts in list
-        /// </summary>
-        public int ElementCount
-        {
-            get { return animalArrayList.Count; }
-        }
 
 
         /// <summary>
@@ -90,26 +56,28 @@ namespace MH_Animal_Applikation_Upg1
         /// <returns></returns>
         public Animal GetElementAtPosition(int index)
         {
+
             //We choose to return a copy, why do we need type casting when copying?
             if (IsIndexValid(index))
             {
 
-                if (animalArrayList[index] is Dog)
-                    return new Dog((Dog)animalArrayList[index]);
-                if (animalArrayList[index] is Cat)
-                    return new Cat((Cat)animalArrayList[index]);
-                if (animalArrayList[index] is Kookaburra)
-                    return new Kookaburra((Kookaburra)animalArrayList[index]);
-                if (animalArrayList[index] is Owl)
-                    return new Owl((Owl)animalArrayList[index]);
+                if (m_list[index] is Dog)
+                    return new Dog((Dog)m_list[index]);
+                if (m_list[index] is Cat)
+                    return new Cat((Cat)m_list[index]);
+                if (m_list[index] is Kookaburra)
+                    return new Kookaburra((Kookaburra)m_list[index]);
+                if (m_list[index] is Owl)
+                    return new Owl((Owl)m_list[index]);
                 //if (animalArrayList[index] is Bee)
                 //    return new Bee((Bee)animalArrayList[index]);
                 else
                     return null;
-            }           
+            }
             else
                 return null;
         }
+
 
         /// <summary>
         /// A list shall not be able to be indexed out of bounds.
@@ -120,7 +88,7 @@ namespace MH_Animal_Applikation_Upg1
         /// <returns></returns>
         public bool IsIndexValid(int index)
         {
-            return ((index >= 0) && (index < animalArrayList.Count));
+            return ((index >= 0) && (index < m_list.Count));
         }
     }
 }
