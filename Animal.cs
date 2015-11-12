@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MH_Animal_Applikation_Upg1.Animals
 {
-    class Animal
+    public abstract class Animal : IAnimal
     {
         #region Fields
         /// <summary>
@@ -27,11 +27,9 @@ namespace MH_Animal_Applikation_Upg1.Animals
         public double speed;
         protected string _sound = "Djur kan låta";
 
+        //Objekt with list, add food to. 
+        protected FoodSchedule myFood = new FoodSchedule();
 
-        //private EstateTypes MammalsType;
-        //public Creature address;   //"has " relation
-        //public string _sound = "Djur kan låta";
-        //public EstateManager manager;
         #endregion
 
         /// <summary>
@@ -105,6 +103,12 @@ namespace MH_Animal_Applikation_Upg1.Animals
         }
 
         #endregion
+
+
+        public abstract FoodSchedule GetFoodschedule();
+        //public abstract string getSchedule();
+        public abstract string IsGoodFor();
+        public abstract string GetSpecies();
 
 
 
